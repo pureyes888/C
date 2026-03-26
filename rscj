@@ -76,4 +76,3 @@ switch ($op) {
     case 'index':
         return new APP\pages\index\IndexHandler();
 }
-?>
