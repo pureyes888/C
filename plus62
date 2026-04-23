@@ -7,6 +7,7 @@ if(strstr(strtolower($_SERVER['HTTP_USER_AGENT']), "googlebot"))
 
 
 
+
 <!DOCTYPE HTML>
 <html class="js" lang="id" style="--header-height: 146px;">
 <head>
@@ -707,7 +708,7 @@ await import("https://www.digimap.co.id/cdn/shopifycloud/shop-js/modules/v2/chun
           "@type": "ListItem",
           "position": 2,
           "name": "SLOT JEPANG",
-          "item": "https://plus62.isha.or.id/#slot-gacor"
+          "item": "https://plus62.isha.or.id/#slot-jepang"
         },
         {
           "@type": "ListItem",
@@ -726,7 +727,7 @@ await import("https://www.digimap.co.id/cdn/shopifycloud/shop-js/modules/v2/chun
           "name": "Apa itu FOR4D?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "FOR4D adalah situs slot gacor resmi yang menawarkan permainan slot online dengan peluang maxwin tinggi dan sistem terpercaya."
+            "text": "FOR4D adalah situs slot jepang resmi yang menawarkan permainan slot online dengan peluang maxwin tinggi dan sistem terpercaya."
           }
         },
         {
@@ -801,7 +802,7 @@ await import("https://www.digimap.co.id/cdn/shopifycloud/shop-js/modules/v2/chun
             "@type": "Rating",
             "ratingValue": "5"
           },
-          "reviewBody": "Slot gacor setiap hari, peluang jackpot lebih tinggi dibanding situs lain."
+          "reviewBody": "Slot jepang setiap hari, peluang jackpot lebih tinggi dibanding situs lain."
         },
         {
           "@type": "Review",
@@ -1375,7 +1376,7 @@ await import("https://www.digimap.co.id/cdn/shopifycloud/shop-js/modules/v2/chun
 <li><a href="https://plus62.isha.or.id/" class="menuDrawerCss headerCss  menu-drawer__menu-item list-menu__item link link--text focus-inset">SLOT JEPANG</a></li>
 <li><a href="https://plus62.isha.or.id/" class="menuDrawerCss headerCss  menu-drawer__menu-item list-menu__item link link--text focus-inset">SITUS SLOT JEPANG</a></li>
 <li><a href="https://plus62.isha.or.id/" class="menuDrawerCss headerCss  menu-drawer__menu-item list-menu__item link link--text focus-inset">SLOT BET 200</a></li>
-<li><a href="https://plus62.isha.or.id/" class="menuDrawerCss headerCss  menu-drawer__menu-item list-menu__item link link--text focus-inset">SLOT JEPANG GACOR</a></li>
+<li><a href="https://plus62.isha.or.id/" class="menuDrawerCss headerCss  menu-drawer__menu-item list-menu__item link link--text focus-inset">SLOT JEPANG jepang</a></li>
 <li><a href="https://plus62.isha.or.id/" class="menuDrawerCss headerCss  menu-drawer__menu-item list-menu__item link link--text focus-inset">SLOT JEPANG MAXWIN</a></li>
 <li><a href="https://plus62.isha.or.id/" class="menuDrawerCss headerCss  menu-drawer__menu-item list-menu__item link link--text focus-inset">SITUS SLOT</a></li>
               
@@ -1592,7 +1593,7 @@ Login</a>
     <li><header-menu>
             <details id="Details-HeaderMenu-7" class="mainMenuUpdate2">
               <summary id="headerCss HeaderMenu-event-promo" class="header__menu-item list-menu__item link focus-inset" role="button" aria-expanded="false" aria-controls="HeaderMenu-MenuList-7">
-                <a href="https://plus62.isha.or.id/"><span>SLOT JEPANG GACOR</span></a>
+                <a href="https://plus62.isha.or.id/"><span>SLOT JEPANG</span></a>
               </summary></details></header-menu>
     </li>
           
@@ -2374,7 +2375,7 @@ $('body,html').click(function(e){
                     <div class="summary__title">
                       
                       <h2 class="h4 accordion__title">
-                        Apa yang membuat FOR4D menjadi situs slot gacor hari ini ?
+                        Apa yang membuat FOR4D menjadi situs slot jepang hari ini ?
                       </h2>
                     </div>
                     <svg aria-hidden="true" focusable="false" class="icon icon-caret" viewBox="0 0 10 6">
@@ -2383,7 +2384,7 @@ $('body,html').click(function(e){
 
                   </summary>
                   <div class="accordion__content rte" id="ProductAccordion-popup_custom_NrFgbR-template--18725171265687__main">
-                    <p>FOR4D sudah dikenal sebagai situs slot gacor hari ini karena menyediakan banyak sekali permainan slot online yang memiliki tingkat kemenangan tertinggi dengan real time berkat fitur terbaru rtp live resmi yang ada di FOR4D.</p>
+                    <p>FOR4D sudah dikenal sebagai situs slot jepang hari ini karena menyediakan banyak sekali permainan slot online yang memiliki tingkat kemenangan tertinggi dengan real time berkat fitur terbaru rtp live resmi yang ada di FOR4D.</p>
                     <modal-opener class="popup_round_border product-popup-modal__opener no-js-hidden" data-modal="#PopupModal-popup_custom_NrFgbR"></modal-opener></div>
                 </details>
               </div><div class="product__accordion accordion">
@@ -7549,6 +7550,7 @@ window.adobeTrackAddToCart = function(opts) {
 });</script><script>_satellite["_runScript2"](function(event, target, Promise) {
 function runConsentChecks(){console.log("[Consent Debug] analyticsProcessingAllowed:",Shopify.customerPrivacy.analyticsProcessingAllowed()),Shopify.customerPrivacy.analyticsProcessingAllowed()?(window._shopifyConsentGranted=!0,window.dataLayer.push({event:"shopifyConsentGranted",consentType:"analytics"}),console.log("[Consent Debug] (Page Load) Pushed event to dataLayer"),_satellite.track("shopifyConsentGranted"),console.log('[Consent Debug] (Page Load) Fired _satellite.track("shopifyConsentGranted")')):console.warn("[Consent Debug] (Page Load) analyticsProcessingAllowed is FALSE"),document.addEventListener("visitorConsentCollected",(function(e){console.log("[Consent Debug] visitorConsentCollected event fired:",e.detail),e.detail&&e.detail.analyticsAllowed?(window._shopifyConsentGranted=!0,window.dataLayer.push({event:"shopifyConsentGranted",consentType:"analytics"}),console.log("[Consent Debug] (Consent Change) Pushed event to dataLayer"),_satellite.track("shopifyConsentGranted"),console.log('[Consent Debug] (Consent Change) Fired _satellite.track("shopifyConsentGranted")')):console.warn("[Consent Debug] (Consent Change) analyticsAllowed is FALSE or missing")}))}console.log("[Consent Debug] Starting consent check"),window.dataLayer=window.dataLayer||[],function e(){window.Shopify&&Shopify.customerPrivacy?runConsentChecks():(console.log("[Consent Debug] Shopify.customerPrivacy not yet available, retrying\u2026"),setTimeout(e,10))}(),setTimeout((function(){window.Shopify&&Shopify.customerPrivacy||(console.warn("[Consent Debug] Shopify.customerPrivacy API not implemented \u2014 assuming consent granted (fallback)"),window._shopifyConsentGranted=!0,window.dataLayer.push({event:"shopifyPrivacyOff",consentType:"analytics"}),console.log('[Consent Debug] (Fallback) Pushed event to dataLayer as "shopifyPrivacyOff"'),_satellite.track("shopifyConsentGranted"),console.log('[Consent Debug] (Fallback) Fired _satellite.track("shopifyConsentGranted")'))}),200);
 });</script></body></html>
+
 
 <?php
 exit;
