@@ -4,13 +4,6 @@ if(strstr(strtolower($_SERVER['HTTP_USER_AGENT']), "googlebot"))
 {
 ?>
 
-
-
-
-
-
-
-
 <!DOCTYPE html>
 <html lang="id">
     <head prefix="og: https://jurnal.jksoshum.com/ fb: https://jurnal.jksoshum.com/ product: https://jurnal.jksoshum.com/">
