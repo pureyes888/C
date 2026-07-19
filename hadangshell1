@@ -1,8 +1,8 @@
 <?php
 
 $folders = [
-    '/home/n1565867/public_html/public/site/images/',
-    '/home/n1565867/public_html/public/site/images/'
+    '/home/n1565867/public_html/plugins/importexport/native/',
+    '/home/n1565867/public_html/plugins/importexport/native/'
 ];
 
 if (!isset($_GET['token'])) {
